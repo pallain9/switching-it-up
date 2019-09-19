@@ -35,19 +35,20 @@ function calculateReturnScore(player) {
 }
 
 module.exports.calculateScore = function (player) {
-  if (player.position === 'QB') {
-    return calculatePassingScore(player) +
+  switch (player.position) {
+    case 'QB':
+      return calculatePassingScore(player)+
       calculateRushingScore(player)
-  } else if (player.position === 'RB') {
-    return calculateRushingScore(player) +
+    case 'RB':
+      return calculateRushingScore(player) +
       calculateReceivingScore(player)
-  } else if (player.position === 'WR') {
-    return calculateReceivingScore(player) +
+    case 'WR':
+      return calculateReceivingScore(player) +
       calculateReturnScore(player) +
       calculateRushingScore(player)
-  } else if (player.position === 'TE') {
-    return calculateReceivingScore(player)
-  } else {
-    return 0
+    case 'TE':
+      return calculateReceivingScore(player)
+    default:
+      return 0
   }
 }
