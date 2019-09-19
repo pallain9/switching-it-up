@@ -2,7 +2,6 @@ function calculatePassingScore(player) {
   var yards = player.stats.passing.yards / 25
   var touchdowns = player.stats.passing.touchdowns * 6
   var interceptions = player.stats.passing.interceptions * -3
-
   return parseFloat((yards + touchdowns + interceptions).toFixed(2))
 }
 
@@ -36,8 +35,19 @@ function calculateReturnScore(player) {
 }
 
 module.exports.calculateScore = function (player) {
-  return calculatePassingScore(player) +
-    calculateRushingScore(player) +
-    calculateReceivingScore(player) +
-    calculateReturnScore(player)
+  if (player.position === 'QB') {
+    return calculatePassingScore(player) +
+      calculateRushingScore(player)
+  } else if (player.position === 'RB') {
+    return calculateRushingScore(player) +
+      calculateReceivingScore(player)
+  } else if (player.position === 'WR') {
+    return calculateReceivingScore(player) +
+      calculateReturnScore(player) +
+      calculateRushingScore(player)
+  } else if (player.position === 'TE') {
+    return calculateReceivingScore(player)
+  } else {
+    return 0
+  }
 }
